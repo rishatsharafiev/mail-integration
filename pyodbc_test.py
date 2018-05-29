@@ -52,7 +52,7 @@ def main():
     try:
         with MSSQL_DATABASE_CONNECTION:
             MSSQL_DATABASE_CURSOR.execute('SELECT TOP (1000) * FROM [a2profile_fh].[dbo].[tGetClientInfo]')
-            for row in MSSQL_DATABASE_CURSOR.fetchall()
+            for row in MSSQL_DATABASE_CURSOR.fetchall():
                 print(row)
     except Exception as e:
         logger.exception(str(e))
