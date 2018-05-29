@@ -98,7 +98,7 @@ def main():
                 email = row[7] or ''
                 phone = row[8] or ''
 
-                if not row[9 and isinstance(row[9], datetime.date):
+                if not row[9] and isinstance(row[9], datetime.date):
                     first_call = row[9].strftime('%Y-%m-%d')
                 else:
                     first_call = ''
