@@ -89,7 +89,7 @@ def main():
                 first_name = row[3] or ''
                 second_name = row[4] or ''
 
-                if isinstance(row[5]:, datetime.date):
+                if isinstance(row[5], datetime.date):
                     birth_date = row[5].strftime('%Y-%m-%d')
                 else:
                     birth_date = ''
@@ -98,19 +98,19 @@ def main():
                 email = row[7] or ''
                 phone = row[8] or ''
 
-                if isinstance(row[9]:, datetime.date):
+                if isinstance(row[9], datetime.date):
                     first_call = row[9].strftime('%Y-%m-%d')
                 else:
                     first_call = ''
-                if isinstance(row[10]:, datetime.date):
+                if isinstance(row[10], datetime.date):
                     last_call = row[10].strftime('%Y-%m-%d')
                 else:
                     last_call = ''
-                if isinstance(row[11]:, datetime.date):
+                if isinstance(row[11], datetime.date):
                     first_meeting = row[11].strftime('%Y-%m-%d')
                 else:
                     first_meeting = ''
-                if isinstance(row[12]:, datetime.date):
+                if isinstance(row[12], datetime.date):
                     last_meeting = row[12].strftime('%Y-%m-%d')
                 else:
                     last_meeting = ''
