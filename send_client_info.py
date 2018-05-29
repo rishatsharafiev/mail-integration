@@ -86,7 +86,10 @@ def main():
 
             for row in MSSQL_DATABASE_CURSOR.fetchall():
                 form_id = row[0] or ''
-                created_at = row[1] or ''
+                if isinstance(row[1], type(datetime.date)):
+                    created_at = row[1].strftime('%Y-%m-%d')
+                else:
+                    created_at = ''
                 surname = row[2] or ''
                 first_name = row[3] or ''
                 second_name = row[4] or ''
