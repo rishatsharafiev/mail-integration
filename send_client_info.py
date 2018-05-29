@@ -54,8 +54,8 @@ def main():
     )
 
     MSSQL_DATABASE_CONNECTION = pyodbc.connect(MSSQL_CONNECTION_STRING)
-    MSSQL_DATABASE_CONNECTION.setdecoding(pyodbc.SQL_CHAR, encoding='latin1', to=str)
-    MSSQL_DATABASE_CONNECTION.setencoding(str, encoding='latin1')
+    MSSQL_DATABASE_CONNECTION.setdecoding(pyodbc.SQL_CHAR, encoding='raw')
+    MSSQL_DATABASE_CONNECTION.setencoding(str, encoding='raw')
 
     MSSQL_DATABASE_CURSOR = MSSQL_DATABASE_CONNECTION.cursor()
 
