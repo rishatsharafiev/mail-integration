@@ -6,6 +6,7 @@ DOTENV_PATH = os.path.join(BASE_PATH, '.env')
 load_dotenv(DOTENV_PATH)
 
 import logging
+import pyodbc
 from pysendpulse.pysendpulse import PySendPulse
 
 ### logger
@@ -60,8 +61,8 @@ def main():
 
         with MSSQL_DATABASE_CONNECTION:
             MSSQL_DATABASE_CURSOR.execute('\
-                SELECT [Номер анкеты] AS questionary_id \
-                    ,[Дата создания] AS create_at \
+                SELECT [Номер анкеты] AS form_id \
+                    ,[Дата создания] AS created_at \
                     ,[Фамилия] AS surname \
                     ,[Имя] AS first_name \
                     ,[Отчество] AS second_name \
@@ -73,13 +74,49 @@ def main():
                     ,[Последний звонок] AS last_call \
                     ,[Первая встреча] AS first_meeting \
                     ,[Последняя встреча] AS last_meeting \
-                    ,[TS] \
+                    ,[TS] AS ts \
                 FROM [a2profile_fh].[dbo].[tGetClientInfo]'
             )
-            for row in MSSQL_DATABASE_CURSOR.fetchall():
-                print(row)
 
-            # SPApiProxy.add_emails_to_addressbook(SENDPULSE_ADDRESSBOOK_ID, emails_for_add)
+            emails_for_add = []
+
+            for row in MSSQL_DATABASE_CURSOR.fetchall():
+                form_id = row[0]
+                created_at = row[1]
+                surname = row[2]
+                first_name = row[3]
+                second_name = row[4]
+                birth_date = row[5]
+                sex = row[6]
+                email = row[7]
+                phone = row[8]
+                first_call = row[9]
+                last_call = row[10]
+                first_meeting = row[11]
+                last_meeting = row[12]
+                ts = row[13]
+
+                emails_for_add.append({
+                    'email': email,
+                    'phone': phone,
+                    'variables': {
+                        'form_id': form_id,
+                        'created_at': created_at,
+                        'surname': surname,
+                        'first_name': first_name,
+                        'last_name': last_name,
+                        'second_name': second_name,
+                        'birth_date': birth_date,
+                        'sex': sex,
+                        'first_call': first_call,
+                        'last_call': last_call,
+                        'first_meeting': first_meeting,
+                        'last_meeting': last_meeting,
+                        'ts': ts,
+                    }
+                })
+
+            SPApiProxy.add_emails_to_addressbook(SENDPULSE_CLIENT_INFO_ID, emails_for_add)
     except Exception as e:
         logger.exception(str(e))
 
