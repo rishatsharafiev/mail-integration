@@ -16,6 +16,7 @@ logger_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 logger_handler.setFormatter(logger_formatter)
 logger.addHandler(logger_handler)
 logger.setLevel(logging.WARNING)
+logger.propagate = False
 
 # logger.error('We have a problem')
 # logger.info('While this is just chatty')
@@ -81,39 +82,40 @@ def main():
             emails_for_add = []
 
             for row in MSSQL_DATABASE_CURSOR.fetchall():
-                form_id = row[0]
-                created_at = row[1]
-                surname = row[2]
-                first_name = row[3]
-                second_name = row[4]
-                birth_date = row[5]
-                sex = row[6]
-                email = row[7]
-                phone = row[8]
-                first_call = row[9]
-                last_call = row[10]
-                first_meeting = row[11]
-                last_meeting = row[12]
-                ts = row[13]
+                form_id = row[0] or ''
+                created_at = row[1] or ''
+                surname = row[2] or ''
+                first_name = row[3] or ''
+                second_name = row[4] or ''
+                birth_date = row[5].strftime('%Y-%m-%d') or ''
+                sex = row[6] or ''
+                email = row[7] or ''
+                phone = row[8] or ''
+                first_call = row[9].strftime('%Y-%m-%d') if row[9] else ''
+                last_call = row[10].strftime('%Y-%m-%d') if row[10] else ''
+                first_meeting = row[11].strftime('%Y-%m-%d') if row[11] else ''
+                last_meeting = row[12].strftime('%Y-%m-%d') if row[12] else ''
+                ts = row[13] or ''
 
-                emails_for_add.append({
-                    'email': email,
-                    'phone': phone,
-                    'variables': {
-                        'form_id': form_id,
-                        'created_at': created_at,
-                        'surname': surname,
-                        'first_name': first_name,
-                        'second_name': second_name,
-                        'birth_date': birth_date,
-                        'sex': sex,
-                        'first_call': first_call,
-                        'last_call': last_call,
-                        'first_meeting': first_meeting,
-                        'last_meeting': last_meeting,
-                        'ts': ts,
-                    }
-                })
+                if email:
+                    emails_for_add.append({
+                        'email': email,
+                        'phone': phone,
+                        'variables': {
+                            'form_id': form_id,
+                            'created_at': created_at,
+                            'surname': surname,
+                            'first_name': first_name,
+                            'second_name': second_name,
+                            'birth_date': birth_date,
+                            'sex': sex,
+                            'first_call': first_call,
+                            'last_call': last_call,
+                            'first_meeting': first_meeting,
+                            'last_meeting': last_meeting,
+                            'ts': ts,
+                        }
+                    })
 
             SPApiProxy.add_emails_to_addressbook(SENDPULSE_CLIENT_INFO_ID, emails_for_add)
     except Exception as e:
