@@ -28,15 +28,13 @@ def main():
     MSSQL_UID = os.getenv('MSSQL_UID')
     MSSQL_PWD = os.getenv('MSSQL_PWD')
 
-    MSSQL_CONNECTION_STRING = '''
-    DRIVER={DRIVER};
-    SERVER={SERVER};
-    PORT={PORT};
-    DATABASE={DATABASE};
-    UID={UID};
-    PWD={PWD};
-    TDS_Version={TDS_VERSION};
-    '''.format(
+    MSSQL_CONNECTION_STRING = 'DRIVER={DRIVER};' \
+        'SERVER={SERVER};' \
+        'PORT={PORT};' \
+        'DATABASE={DATABASE};' \
+        'UID={UID};' \
+        'PWD={PWD};' \
+        'TDS_Version={TDS_VERSION};'.format(
         DRIVER=MSSQL_DRIVER,
         TDS_VERSION=MSSQL_TDS_VERSION,
         SERVER=MSSQL_SERVER,
@@ -45,6 +43,8 @@ def main():
         UID=MSSQL_UID,
         PWD=MSSQL_PWD,
     )
+
+    print(MSSQL_CONNECTION_STRING)
 
     MSSQL_DATABASE_CONNECTION = pyodbc.connect(MSSQL_CONNECTION_STRING)
 
