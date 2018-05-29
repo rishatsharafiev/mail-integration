@@ -44,11 +44,17 @@ def main():
         PWD=MSSQL_PWD,
     )
 
-    print(MSSQL_CONNECTION_STRING)
-
     MSSQL_DATABASE_CONNECTION = pyodbc.connect(MSSQL_CONNECTION_STRING)
 
-    cursor = MSSQL_DATABASE_CONNECTION.cursor()
+    MSSQL_DATABASE_CURSOR = MSSQL_DATABASE_CONNECTION.cursor()
+
+
+    try:
+        with MSSQL_DATABASE_CONNECTION:
+            result = MSSQL_DATABASE_CURSOR.execute('SELECT TOP (1000) * FROM [a2profile_fh].[dbo].[tGetClientInfo]').rowcount
+            print(result)
+    except Exception as e:
+        logger.exception(str(e))
 
 if __name__ == '__main__':
     main()
