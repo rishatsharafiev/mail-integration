@@ -125,8 +125,8 @@ def main():
                 if email:
                     emails_for_add.append({
                         'email': email,
-                        'phone': phone,
                         'variables': {
+                            'phone': phone,
                             'form_id': form_id,
                             'created_at': created_at,
                             'surname': surname,
