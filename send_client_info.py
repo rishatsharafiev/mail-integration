@@ -64,8 +64,8 @@ def main():
         SPApiProxy = PySendPulse(SENDPULSE_REST_API_ID, SENDPULSE_REST_API_SECRET, SENDPULSE_TOKEN_STORAGE)
 
         with MSSQL_DATABASE_CONNECTION:
-            MSSQL_DATABASE_CURSOR.execute('\
-                SELECT [Номер анкеты] AS form_id \
+            MSSQL_DATABASE_CURSOR.execute("\
+                SELECT DISTINCT [Номер анкеты] AS form_id \
                     ,[Дата создания] AS created_at \
                     ,[Фамилия] AS surname \
                     ,[Имя] AS first_name \
@@ -79,7 +79,8 @@ def main():
                     ,[Первая встреча] AS first_meeting \
                     ,[Последняя встреча] AS last_meeting \
                     ,[TS] AS ts \
-                FROM [a2profile_fh].[dbo].[tGetClientInfo]'
+                FROM [a2profile_fh].[dbo].[tGetClientInfo] \
+                WHERE [Электронная почта] IS NOT NULL AND [Электронная почта] != ''"
             )
 
             emails_for_add = []
