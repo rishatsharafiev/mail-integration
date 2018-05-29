@@ -1,4 +1,4 @@
-# encoding: cp1251
+# coding: cp1251
 
 import os
 from dotenv import load_dotenv
