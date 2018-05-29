@@ -8,6 +8,7 @@ load_dotenv(DOTENV_PATH)
 import logging
 import pyodbc
 from pysendpulse.pysendpulse import PySendPulse
+from datetime import datetime
 
 ### logger
 logger = logging.getLogger(__name__)
@@ -87,14 +88,32 @@ def main():
                 surname = row[2] or ''
                 first_name = row[3] or ''
                 second_name = row[4] or ''
-                birth_date = row[5].strftime('%Y-%m-%d') or ''
+
+                if isinstance(row[5]:, datetime.date):
+                    birth_date = row[5].strftime('%Y-%m-%d')
+                else:
+                    birth_date = ''
+
                 sex = row[6] or ''
                 email = row[7] or ''
                 phone = row[8] or ''
-                first_call = row[9].strftime('%Y-%m-%d') if row[9] else ''
-                last_call = row[10].strftime('%Y-%m-%d') if row[10] else ''
-                first_meeting = row[11].strftime('%Y-%m-%d') if row[11] else ''
-                last_meeting = row[12].strftime('%Y-%m-%d') if row[12] else ''
+
+                if isinstance(row[9]:, datetime.date):
+                    first_call = row[9].strftime('%Y-%m-%d')
+                else:
+                    first_call = ''
+                if isinstance(row[10]:, datetime.date):
+                    last_call = row[10].strftime('%Y-%m-%d')
+                else:
+                    last_call = ''
+                if isinstance(row[11]:, datetime.date):
+                    first_meeting = row[11].strftime('%Y-%m-%d')
+                else:
+                    first_meeting = ''
+                if isinstance(row[12]:, datetime.date):
+                    last_meeting = row[12].strftime('%Y-%m-%d')
+                else:
+                    last_meeting = ''
                 ts = row[13] or ''
 
                 if email:
