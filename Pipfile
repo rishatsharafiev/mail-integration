@@ -13,6 +13,7 @@ name = "pypi"
 
 pyodbc = "==4.0.*"
 python-dotenv = "*"
+pysendpulse = "==0.0.3"
 
 
 [requires]
