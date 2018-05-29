@@ -134,7 +134,7 @@ def main():
                             'last_call': last_call,
                             'first_meeting': first_meeting,
                             'last_meeting': last_meeting,
-                            'ts': ts.decode('cp1251'),
+                            'ts': ts,
                         }
                     })
 
