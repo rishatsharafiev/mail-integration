@@ -104,7 +104,6 @@ def main():
                         'created_at': created_at,
                         'surname': surname,
                         'first_name': first_name,
-                        'last_name': last_name,
                         'second_name': second_name,
                         'birth_date': birth_date,
                         'sex': sex,
