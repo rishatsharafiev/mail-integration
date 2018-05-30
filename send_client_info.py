@@ -91,9 +91,21 @@ def main():
                     created_at = row[1].strftime('%Y-%m-%d')
                 else:
                     created_at = ''
-                surname = row[2].split('-')[0].capitalize() or ''
-                first_name = row[3].split('-')[0].capitalize() or ''
-                second_name = row[4].split('-')[0].capitalize() or ''
+
+                if row[2]:
+                    surname = row[2].split('-')[0].capitalize() or ''
+                else:
+                    surname = ''
+
+                if row[3]:
+                    first_name = row[3].split('-')[0].capitalize() or ''
+                else:
+                    first_name = ''
+
+                if row[4]:
+                    second_name = row[4].split('-')[0].capitalize() or ''
+                else:
+                    second_name = ''
 
                 if row[5]:
                     birth_date = row[5].strftime('%Y-%m-%d')
@@ -108,18 +120,22 @@ def main():
                     first_call = row[9].strftime('%Y-%m-%d')
                 else:
                     first_call = ''
+
                 if row[10]:
                     last_call = row[10].strftime('%Y-%m-%d')
                 else:
                     last_call = ''
+
                 if row[11]:
                     first_meeting = row[11].strftime('%Y-%m-%d')
                 else:
                     first_meeting = ''
+
                 if row[12]:
                     last_meeting = row[12].strftime('%Y-%m-%d')
                 else:
                     last_meeting = ''
+
                 ts = row[13] or ''
 
                 if email:
