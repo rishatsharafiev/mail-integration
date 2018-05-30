@@ -95,7 +95,7 @@ def main():
                     last_call = row[5].strftime('%Y-%m-%d')
                 else:
                     last_call = ''
-                name = row[6] or ''
+                name = row[6].split('-')[0].capitalize() or ''
 
                 if email:
                     emails_for_add.append({
