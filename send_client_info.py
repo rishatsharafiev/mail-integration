@@ -127,17 +127,17 @@ def main():
                         'email': email,
                         'variables': {
                             'phone': phone,
-                            # 'Номер анкеты': form_id,
-                            'Дата создания': created_at,
-                            # 'Фамилия': surname,
-                            'Имя': first_name,
-                            # 'Отчество': second_name,
-                            'Дата рождения': birth_date,
-                            'Пол': sex,
-                            'Первый звонок': first_call,
-                            'Последний звонок': last_call,
-                            # 'Первая встреча': first_meeting,
-                            # 'Последняя встреча': last_meeting,
+                            # 'form_id': form_id,
+                            'created_at': created_at,
+                            # 'surname': surname,
+                            'first_name': first_name,
+                            # 'second_name': second_name,
+                            'birth_date': birth_date,
+                            'sex': sex,
+                            'first_call': first_call,
+                            'last_call': last_call,
+                            # 'first_meeting': first_meeting,
+                            # 'last_meeting': last_meeting,
                         }
                     })
 
