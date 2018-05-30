@@ -91,9 +91,9 @@ def main():
                     created_at = row[1].strftime('%Y-%m-%d')
                 else:
                     created_at = ''
-                surname = row[2] or ''
-                first_name = row[3] or ''
-                second_name = row[4] or ''
+                surname = row[2].split('-')[0].capitalize() or ''
+                first_name = row[3].split('-')[0].capitalize() or ''
+                second_name = row[4].split('-')[0].capitalize() or ''
 
                 if row[5]:
                     birth_date = row[5].strftime('%Y-%m-%d')
