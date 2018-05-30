@@ -84,17 +84,26 @@ def main():
                     created_at = row[0].strftime('%Y-%m-%d')
                 else:
                     created_at = ''
-                first_name = row[1].split('-')[0].capitalize() or ''
+
+                if row[1]:
+                    first_name = row[1].split('-')[0].capitalize() or ''
+                else:
+                    first_name = ''
+
                 number = row[2] or ''
+
                 email = row[3] or ''
+
                 if row[4]:
                     last_meeting = row[4].strftime('%Y-%m-%d')
                 else:
                     last_meeting = ''
+
                 if row[5]:
                     last_call = row[5].strftime('%Y-%m-%d')
                 else:
                     last_call = ''
+
                 name = row[6] or ''
 
                 if email:
