@@ -25,3 +25,16 @@ pipenv shell --python 3.6
 ```
 pipenv install
 ```
+
+### Configure cron jobs
+
+Open cron config
+```
+crontab -e
+```
+
+Run jobs every hour
+```
+0 * * * * /home/user/.local/share/virtualenvs/mssql2sendpulse-OYLWRT-f/bin/python /home/user/projects/mssql2sendpulse/send_client_info.py
+0 * * * * /home/user/.local/share/virtualenvs/mssql2sendpulse-OYLWRT-f/bin/python /home/user/projects/mssql2sendpulse/send_contact_info.py
+```
