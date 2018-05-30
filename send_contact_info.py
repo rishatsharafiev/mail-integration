@@ -80,7 +80,10 @@ def main():
             emails_for_add = []
 
             for row in MSSQL_DATABASE_CURSOR.fetchall():
-                created_at = row[0] or ''
+                if row[0]:
+                    created_at = row[0].strftime('%Y-%m-%d')
+                else:
+                    created_at = ''
                 first_name = row[1] or ''
                 number = row[2] or ''
                 email = row[3] or ''
