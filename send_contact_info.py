@@ -98,18 +98,12 @@ def main():
                     emails_for_add.append({
                         'email': email,
                         'variables': {
-                            'phone': phone,
-                            # 'form_id': form_id,
                             'created_at': created_at,
-                            # 'surname': surname,
                             'first_name': first_name,
-                            # 'second_name': second_name,
-                            'birth_date': birth_date,
-                            'sex': sex,
-                            'first_call': first_call,
+                            # 'number': number,
+                            'last_meeting': last_meeting,
                             'last_call': last_call,
-                            # 'first_meeting': first_meeting,
-                            # 'last_meeting': last_meeting,
+                            'name': name,
                         }
                     })
 
