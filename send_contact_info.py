@@ -84,7 +84,7 @@ def main():
                     created_at = row[0].strftime('%Y-%m-%d')
                 else:
                     created_at = ''
-                first_name = row[1] or ''
+                first_name = row[1].split('-')[0].capitalize() or ''
                 number = row[2] or ''
                 email = row[3] or ''
                 if row[4]:
@@ -95,7 +95,7 @@ def main():
                     last_call = row[5].strftime('%Y-%m-%d')
                 else:
                     last_call = ''
-                name = row[6].split('-')[0].capitalize() or ''
+                name = row[6] or ''
 
                 if email:
                     emails_for_add.append({
