@@ -29,8 +29,31 @@ def main():
     try:
         auth = HTTPBasicAuth(ESPUTNIK_EMAIL, ESPUTNIK_PASSWORD)
         headers = {'accept': 'application/json', 'content-type': 'application/json'}
-        url = 'https://esputnik.com/api/v2/version'
-        response = requests.get(url, auth=auth , headers=headers)
+        url = 'https://esputnik.com/api/v1/contact'
+
+        contact = {
+            'firstName' : 'Rishat',
+            'lastName' : 'Sharafiev2',
+            'channels' : [
+                {
+                    'type' : 'email',
+                    'value' : 'rishatsharafiev@ya.ru'
+                },
+            ],
+            'groups': [
+                {
+                    'name': 'Users'
+                }
+            ],
+            'fields': [
+                {
+                    'id': 79703,
+                    'value': '1994-05-25'
+                }
+            ]
+        }
+
+        response = requests.post(url, auth=auth , headers=headers, json=contact)
         print(response.text)
     except Exception as e:
         logger.exception(str(e))
