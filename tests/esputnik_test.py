@@ -36,6 +36,7 @@ def main():
 
         response = requests.post(url, auth=auth , headers=headers, json=contact)
         print(json.loads(response.text)['id'])
+        print(response.status_code)
     except Exception as e:
         logger.exception(str(e))
 

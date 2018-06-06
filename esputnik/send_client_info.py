@@ -228,17 +228,19 @@ def main():
                         response = requests.put(put_url.format(contact_ids[0], auth=auth , headers=headers, json=contact))
                     else:
                         response = requests.post(post_url, auth=auth , headers=headers, json=contact)
-                        response = json.loads(response.text)
-                        if 'id' in response:
-                            MSSQL_DATABASE_CURSOR.execute("\
-                                INSERT INTO [a2profile_fh].[dbo].[tSputnikClientInfo] \
-                                    ([ContactID] \
-                                    ,[Email]) \
-                                VALUES \
-                                    (?, ?);",
-                                response['id'],
-                                email
-                            )
+                        if response.status_code == 200:
+                            response = json.loads(response.text)
+                            if 'id' in response:
+                                MSSQL_DATABASE_CURSOR.execute("\
+                                    INSERT INTO [a2profile_fh].[dbo].[tSputnikClientInfo] \
+                                        ([ContactID] \
+                                        ,[Email]) \
+                                    VALUES \
+                                        (?, ?);",
+                                    response['id'],
+                                    email
+                                )
+                                MSSQL_DATABASE_CONNECTION.commit()
     except Exception as e:
         logger.exception(str(e))
 
