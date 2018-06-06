@@ -227,7 +227,7 @@ def main():
                         response = requests.put(url.format(contact_ids[0], auth=auth , headers=headers, json=contact))
                     else:
                         response = requests.post(url, auth=auth , headers=headers, json=contact)
-                        response = json.load(response.text)
+                        response = json.loads(response.text)
                         if 'id' in response:
                             MSSQL_DATABASE_CURSOR.execute("\
                                 INSERT INTO [dbo].[tSputnikClientInfo] \
