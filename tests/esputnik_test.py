@@ -7,6 +7,7 @@ load_dotenv(DOTENV_PATH)
 
 import logging
 import requests
+import json
 from requests.auth import HTTPBasicAuth
 
 ### logger
@@ -45,16 +46,10 @@ def main():
                     'name': 'Users'
                 }
             ],
-            'fields': [
-                {
-                    'id': 79703,
-                    'value': '1994-05-25'
-                }
-            ]
         }
 
         response = requests.post(url, auth=auth , headers=headers, json=contact)
-        print(response.text)
+        print(json.loads(response.text)['id'])
     except Exception as e:
         logger.exception(str(e))
 
