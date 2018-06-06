@@ -10,6 +10,7 @@ load_dotenv(DOTENV_PATH)
 import logging
 import pyodbc
 import json
+import requests
 from requests.auth import HTTPBasicAuth
 from datetime import datetime
 
