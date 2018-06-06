@@ -10,7 +10,7 @@ load_dotenv(DOTENV_PATH)
 import logging
 import pyodbc
 import json
-from pysendpulse.pysendpulse import PySendPulse
+from requests.auth import HTTPBasicAuth
 from datetime import datetime
 
 ### logger
