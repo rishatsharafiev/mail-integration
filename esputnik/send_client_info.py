@@ -70,7 +70,8 @@ def main():
     try:
         auth = HTTPBasicAuth(ESPUTNIK_EMAIL, ESPUTNIK_PASSWORD)
         headers = {'accept': 'application/json', 'content-type': 'application/json'}
-        url = 'https://esputnik.com/api/v1/contact/{contact_id}'
+        post_url = 'https://esputnik.com/api/v1/contact'
+        put_url = 'https://esputnik.com/api/v1/contact/{contact_id}'
 
         with MSSQL_DATABASE_CONNECTION:
             """
@@ -224,9 +225,9 @@ def main():
 
                     contact_ids = [contact['contact_id'] for contact in updated_contacts if contact['email'] == email]
                     if email in updated_contacts_email and len(contact_ids) > 0:
-                        response = requests.put(url.format(contact_ids[0], auth=auth , headers=headers, json=contact))
+                        response = requests.put(put_url.format(contact_ids[0], auth=auth , headers=headers, json=contact))
                     else:
-                        response = requests.post(url, auth=auth , headers=headers, json=contact)
+                        response = requests.post(post_url, auth=auth , headers=headers, json=contact)
                         response = json.loads(response.text)
                         if 'id' in response:
                             MSSQL_DATABASE_CURSOR.execute("\
