@@ -181,6 +181,38 @@ def main():
                 ts = row[13] or ''
 
                 if email:
+                    fields = []
+                    if phone:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_PHONE,
+                            'value': phone,
+                        })
+                    if created_at:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_CREATED_AT,
+                            'value': created_at,
+                        })
+                    if birth_date:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_BIRTH_DATE,
+                            'value': birth_date,
+                        })
+                    if sex:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_SEX,
+                            'value': sex,
+                        })
+                    if first_call:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_FIRST_CALL,
+                            'value': first_call,
+                        })
+                    if last_call:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_LAST_CALL,
+                            'value': last_call,
+                        })
+
                     contact = {
                         'firstName' : first_name,
                         'lastName' : surname,
@@ -195,32 +227,7 @@ def main():
                                 'name': ESPUTNIK_GROUP_CLIENT_INFO,
                             }
                         ],
-                        'fields': [
-                            {
-                                'id': ESPUTNIK_FIELD_PHONE,
-                                'value': phone,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_CREATED_AT,
-                                'value': created_at,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_BIRTH_DATE,
-                                'value': birth_date,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_SEX,
-                                'value': sex,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_FIRST_CALL,
-                                'value': first_call,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_LAST_CALL,
-                                'value': last_call,
-                            },
-                        ]
+                        'fields': fields
                     }
 
                     contact_ids = [contact['contact_id'] for contact in updated_contacts if contact['email'] == email]

@@ -147,6 +147,29 @@ def main():
                 name = row[6] or ''
 
                 if email:
+                    fields = []
+                    if created_at:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_CREATED_AT,
+                            'value': created_at,
+                        })
+                    if last_meeting:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_LAST_MEETING,
+                            'value': last_meeting,
+                        })
+                    if last_call:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_LAST_CALL,
+                            'value': last_call,
+                        })
+                    if name:
+                        fields.append({
+                            'id': ESPUTNIK_FIELD_NAME,
+                            'value': name,
+                        })
+
+
                     contact = {
                         'firstName' : first_name,
                         'channels' : [
@@ -160,24 +183,7 @@ def main():
                                 'name': ESPUTNIK_GROUP_CONTACT_INFO,
                             }
                         ],
-                        'fields': [
-                            {
-                                'id': ESPUTNIK_FIELD_CREATED_AT,
-                                'value': created_at,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_LAST_MEETING,
-                                'value': last_meeting,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_LAST_CALL,
-                                'value': last_call,
-                            },
-                            {
-                                'id': ESPUTNIK_FIELD_NAME,
-                                'value': name,
-                            },
-                        ]
+                        'fields': fields
                     }
 
                     contact_ids = [contact['contact_id'] for contact in updated_contacts if contact['email'] == email]
