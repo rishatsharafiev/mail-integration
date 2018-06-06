@@ -230,7 +230,7 @@ def main():
                         response = json.loads(response.text)
                         if 'id' in response:
                             MSSQL_DATABASE_CURSOR.execute("\
-                                INSERT INTO [dbo].[tSputnikClientInfo] \
+                                INSERT INTO [a2profile_fh].[dbo].[tSputnikClientInfo] \
                                     ([ContactID] \
                                     ,[Email]) \
                                 VALUES \

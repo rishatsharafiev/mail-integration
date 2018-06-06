@@ -32,21 +32,7 @@ def main():
         headers = {'accept': 'application/json', 'content-type': 'application/json'}
         url = 'https://esputnik.com/api/v1/contact'
 
-        contact = {
-            'firstName' : 'Rishat',
-            'lastName' : 'Sharafiev2',
-            'channels' : [
-                {
-                    'type' : 'email',
-                    'value' : 'rishatsharafiev@ya.ru'
-                },
-            ],
-            'groups': [
-                {
-                    'name': 'Users'
-                }
-            ],
-        }
+        contact = {'firstName': 'Ольга', 'lastName': 'Осипова', 'channels': [{'type': 'email', 'value': 'happyolga82@gmail.com'}], 'groups': [{'name': 'client_info'}], 'fields': [{'id': '79735', 'value': '9253070445'}, {'id': '79736', 'value': '2014-12-02'}, {'id': '79737', 'value': '1982-05-30'}, {'id': '79738', 'value': 'Женский'}, {'id': '79739', 'value': '2014-12-03'}, {'id': '79740', 'value': '2017-06-20'}]}
 
         response = requests.post(url, auth=auth , headers=headers, json=contact)
         print(json.loads(response.text)['id'])
