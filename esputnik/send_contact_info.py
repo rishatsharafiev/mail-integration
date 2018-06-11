@@ -84,7 +84,7 @@ def main():
             """
 
             MSSQL_DATABASE_CURSOR.execute("\
-                SELECT [Email], MAX([ContactID]) AS [ContactID] \
+                SELECT MAX([ContactID]), [Email] AS [ContactID] \
                 FROM [a2profile_fh].[dbo].[tSputnikContactInfo] \
                 GROUP BY [Email];"
             )
