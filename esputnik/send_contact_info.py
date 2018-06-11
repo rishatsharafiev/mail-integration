@@ -181,7 +181,7 @@ def main():
                     }
 
                     if email in updated_contacts:
-                        response = requests.put(put_url.format(contact_id=updated_contacts[email]), auth=auth , headers=headers, json=contact))
+                        response = requests.put(put_url.format(contact_id=updated_contacts[email]), auth=auth , headers=headers, json=contact)
                     else:
                         response = requests.post(post_url, auth=auth , headers=headers, json=contact)
                         if response.status_code == 200:
