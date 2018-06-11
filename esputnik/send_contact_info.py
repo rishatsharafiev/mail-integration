@@ -91,7 +91,7 @@ def main():
             )
 
 
-            updated_contacts = []
+            updated_contacts = {}
 
             for row in MSSQL_DATABASE_CURSOR.fetchall():
                 contact_id = row[0] or ''
