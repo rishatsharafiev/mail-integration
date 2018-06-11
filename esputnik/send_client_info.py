@@ -99,12 +99,7 @@ def main():
                 contact_id = row[0] or ''
                 email = row[1] or ''
 
-                updated_contacts.append({
-                    'contact_id': contact_id,
-                    'email': email
-                })
-
-            updated_contacts_email = [contact['email'] for contact in updated_contacts]
+                updated_contacts[email] = contact_id
 
             MSSQL_DATABASE_CURSOR.execute("\
                 SELECT DISTINCT [Номер анкеты] AS form_id \
@@ -230,9 +225,8 @@ def main():
                         'fields': fields
                     }
 
-                    contact_ids = [contact['contact_id'] for contact in updated_contacts if contact['email'] == email]
-                    if email in updated_contacts_email and len(contact_ids) > 0:
-                        response = requests.put(put_url.format(contact_ids[0], auth=auth , headers=headers, json=contact))
+                    if email in updated_contacts:
+                        response = requests.put(put_url.format(updated_contacts[email], auth=auth , headers=headers, json=contact))
                     else:
                         response = requests.post(post_url, auth=auth , headers=headers, json=contact)
                         if response.status_code == 200:
