@@ -11,6 +11,7 @@ import logging
 import pyodbc
 import json
 import requests
+import math
 from requests.auth import HTTPBasicAuth
 from datetime import datetime
 
@@ -20,7 +21,7 @@ logger_handler = logging.FileHandler(os.path.join(BASE_PATH, '{}.log'.format(__f
 logger_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 logger_handler.setFormatter(logger_formatter)
 logger.addHandler(logger_handler)
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.INFO)
 logger.propagate = False
 
 # logger.error('We have a problem')
@@ -70,36 +71,9 @@ def main():
     try:
         auth = HTTPBasicAuth(ESPUTNIK_EMAIL, ESPUTNIK_PASSWORD)
         headers = {'accept': 'application/json', 'content-type': 'application/json'}
-        post_url = 'https://esputnik.com/api/v1/contact'
-        put_url = 'https://esputnik.com/api/v1/contact/{contact_id}'
+        post_url = 'https://esputnik.com/api/v1/contacts'
 
         with MSSQL_DATABASE_CONNECTION:
-            """
-                -- Create table before
-
-                CREATE TABLE [a2profile_fh].[dbo].[tSputnikClientInfo] (
-                    ID int NOT NULL IDENTITY(1,1),
-                    ContactID varchar(255) NOT NULL,
-                    Email varchar(255),
-                    PRIMARY KEY (ID),
-                );
-            """
-
-            MSSQL_DATABASE_CURSOR.execute("\
-                SELECT MAX([ContactID]), [Email] AS [ContactID] \
-                FROM [a2profile_fh].[dbo].[tSputnikClientInfo] \
-                GROUP BY [Email];"
-            )
-
-
-            updated_contacts = {}
-
-            for row in MSSQL_DATABASE_CURSOR.fetchall():
-                contact_id = row[0] or ''
-                email = row[1] or ''
-
-                updated_contacts[email] = contact_id
-
             MSSQL_DATABASE_CURSOR.execute("\
                 SELECT DISTINCT [Номер анкеты] AS form_id \
                     ,[Дата создания] AS created_at \
@@ -119,7 +93,7 @@ def main():
                 WHERE [Электронная почта] IS NOT NULL AND [Электронная почта] != ''"
             )
 
-            emails_for_add = []
+            contacts_for_add = []
 
             for row in MSSQL_DATABASE_CURSOR.fetchall():
                 form_id = row[0] or ''
@@ -224,23 +198,39 @@ def main():
                         'fields': fields
                     }
 
-                    if email in updated_contacts:
-                        response = requests.put(put_url.format(contact_id=updated_contacts[email]), auth=auth , headers=headers, json=contact)
-                    else:
-                        response = requests.post(post_url, auth=auth , headers=headers, json=contact)
-                        if response.status_code == 200:
-                            response = json.loads(response.text)
-                            if 'id' in response:
-                                MSSQL_DATABASE_CURSOR.execute("\
-                                    INSERT INTO [a2profile_fh].[dbo].[tSputnikClientInfo] \
-                                        ([ContactID] \
-                                        ,[Email]) \
-                                    VALUES \
-                                        (?, ?);",
-                                    response['id'],
-                                    email
-                                )
-                                MSSQL_DATABASE_CONNECTION.commit()
+                    contacts_for_add.append(contact)
+
+            chunk_length = 3000
+            steps = math.ceil(len(contacts_for_add) / chunk_length)
+            body = {
+                'contacts' : [],
+                'dedupeOn' : 'email',
+                # 'fieldId' : '',
+                'contactFields' : [ 'firstName', 'lastName', ],
+                'customFieldsIDs' : [
+                    ESPUTNIK_FIELD_PHONE,
+                    ESPUTNIK_FIELD_CREATED_AT,
+                    ESPUTNIK_FIELD_BIRTH_DATE,
+                    ESPUTNIK_FIELD_SEX,
+                    ESPUTNIK_FIELD_FIRST_CALL,
+                    ESPUTNIK_FIELD_LAST_CALL,
+                ],
+                'groupNames' : [ ESPUTNIK_GROUP_CLIENT_INFO, ],
+                'groupNamesExclude' : [],
+                'restoreDeleted' : True,
+                'eventKeyForNewContacts' : '{group}_new_contact'.format(group=ESPUTNIK_GROUP_CLIENT_INFO)
+            }
+
+            for step in range(steps):
+                chunk = contacts_for_add[step:chunk_length]
+                body['contacts'] = chunk
+
+                response = requests.post(post_url, auth=auth , headers=headers, json=body)
+                response_text = str(response.json())
+                if response.status_code == 200:
+                    logger.info(response_text)
+                else:
+                    logger.exception(response_text)
     except Exception as e:
         logger.exception(str(e))
 

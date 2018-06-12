@@ -35,6 +35,6 @@ crontab -e
 
 Run jobs every hour
 ```
-0 * * * * /home/user/.local/share/virtualenvs/mssql2sendpulse-OYLWRT-f/bin/python /home/user/projects/mssql2sendpulse/send_client_info.py
-0 * * * * /home/user/.local/share/virtualenvs/mssql2sendpulse-OYLWRT-f/bin/python /home/user/projects/mssql2sendpulse/send_contact_info.py
+0 * * * * /home/user/.local/share/virtualenvs/mssql2sendpulse-OYLWRT-f/bin/python /home/user/projects/esputnik/send_client_info_bulk.py
+0 * * * * /home/user/.local/share/virtualenvs/mssql2sendpulse-OYLWRT-f/bin/python /home/user/projects/esputnik/send_contact_info_bulk.py
 ```
