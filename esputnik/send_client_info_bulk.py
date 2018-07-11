@@ -200,7 +200,7 @@ def main():
 
                     contacts_for_add.append(contact)
 
-            chunk_length = 3000
+            chunk_length = 3000 - 1
             steps = math.ceil(len(contacts_for_add) / chunk_length)
             body = {
                 'contacts' : [],
@@ -222,15 +222,23 @@ def main():
             }
 
             for step in range(steps):
-                chunk = contacts_for_add[step:chunk_length]
+                chunk = contacts_for_add[step*chunk_length:chunk_length*(step + 1)]
+
+                print(step*chunk_length, ' ', chunk_length*(step + 1), len(chunk))
                 body['contacts'] = chunk
 
                 response = requests.post(post_url, auth=auth , headers=headers, json=body)
-                response_text = str(response.json())
+                response_json = response.json()
+
                 if response.status_code == 200:
-                    logger.info(response_text)
+                    failedContacts = response_json.get('failedContacts', '')
+                    if isinstance(failedContacts, list):
+                        print('failed: ', len(failedContacts))
+                    else:
+                        print('failed: ', failedContacts)
                 else:
-                    logger.exception(response_text)
+                    logger.exception(str(response_json))
+                time.sleep(3)
     except Exception as e:
         logger.exception(str(e))
 
